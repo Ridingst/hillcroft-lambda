@@ -30,4 +30,3 @@ jobs:
           aws_region: ${{ secrets.AWS_REGION }}
           function_name: HillcroftGetPurchases
           zip_file: function.zip
-          source: index.js
