@@ -88,8 +88,6 @@ function getOneOff(){
 }
 
 function getSubcription(){
-    return {
-        statusCode: 200,
-        body: []
-    }
+    return stripe.invoices.list({limit:100, status: 'paid', expand: ['data.line_items', 'data.customer']})
+        .autoPagingToArray({limit: 10000})
 }
