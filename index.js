@@ -6,6 +6,8 @@ Invoices = subscription products
 CheckoutSessions = one off purchases
 PaymentIntents = summer session purchases
 
+It will automatically deploy to AWS Lambda on commit to main branch.
+
 */
 
 const Stripe = require('stripe');
