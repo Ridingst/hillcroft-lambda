@@ -105,7 +105,7 @@ function getCombined(){
     var subscription = getSubcription();
     var oneOff = getOneOff();
 
-    return Promise.all(subscription, oneOff)
+    return Promise.all([subscription, oneOff])
     .then(data => {
         return data[0].concat(data[1])
     })
