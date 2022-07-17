@@ -16,7 +16,7 @@ jobs:
 
       - name: Build
         run: |
-          npm ci
+          npm i
           npm run pack
           cd dist && zip -r -9 api.zip *
           
