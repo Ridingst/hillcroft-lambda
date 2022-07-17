@@ -8,6 +8,10 @@ PaymentIntents = summer session purchases
 
 It will automatically deploy to AWS Lambda on commit to main branch.
 
+Accepts two parameters passed as headers
+x-api-key = Authentication key
+mode = [oneOff, subscription] can retrieve oneOff or subscription Payments.
+
 */
 
 const Stripe = require('stripe');
@@ -17,10 +21,40 @@ var _ = require('underscore');
 
 exports.handler = async (event) => {
     console.log('Function started');
-    console.log(event.headers)
+
+    var mode = ''
+    if('mode' in event.headers){ modeParam = event.headers.mode;}
+    else { mode = 'oneOff'}
     
     if(("x-api-key" in event.headers) && event.headers['x-api-key'] == process.env.API_KEY){
-        return stripe.checkout.sessions.list({limit:100, expand: ['data.line_items', 'data.customer']})
+        switch(mode){
+            case 'oneOff':
+                console.log('Running in ONEOFF mode');
+                return getOneOff();
+                break;
+            
+            case 'subscription':
+                console.log('Running in SUBSCRIPTION mode')
+                return getSubcription();
+                break;
+            
+            default:
+                console.log('Mode unknown, defaulting to ONEOFF mode')
+                return getOneOff();
+        }
+
+    } else {
+        return {
+            statusCode: 400,
+            body: 'Unauthorised'
+        }
+    }
+        
+};
+
+
+function getOneOff(){
+    return stripe.checkout.sessions.list({limit:100, expand: ['data.line_items', 'data.customer']})
         .autoPagingToArray({limit: 10000})
         .then(data => {
             console.log('Filtering results to only paid');
@@ -52,10 +86,11 @@ exports.handler = async (event) => {
                 body: "Error fetching purchases."
             };
         });
-    } else {
-        return {
-            statusCode: 400,
-            body: 'Unauthorised'
-        }
+}
+
+function getSubcription(){
+    return {
+        statusCode: 200,
+        body: []
     }
-};
+}
