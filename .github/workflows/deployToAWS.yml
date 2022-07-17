@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: |
           npm ci
-          zip -r -9 function.zip *
+          zip -r -9 function.zip .
           
       - name: default deploy
         uses: appleboy/lambda-action@master
