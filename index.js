@@ -27,19 +27,69 @@ exports.handler = async (event) => {
     
     if(("x-api-key" in event.headers) && event.headers['x-api-key'] == process.env.API_KEY){
         switch(mode){
+
             case 'oneOff':
                 console.log('Running in ONEOFF mode');
-                return getOneOff();
+                return getOneOff()
+                    .then(function(data){
+                        console.log("Return data");
+                        return { statusCode: 200, body: data };   
+                    })
+                    .catch(err => {
+                        console.error((err));
+                        return {
+                            statusCode: 400,
+                            body: "Error fetching purchases."
+                        };
+                    });
                 break;
             
             case 'subscription':
                 console.log('Running in SUBSCRIPTION mode')
-                return getSubcription();
+                return getSubcription()
+                    .then(function(data){
+                        console.log("Return data");
+                        return { statusCode: 200, body: data };   
+                    })
+                    .catch(err => {
+                        console.error((err));
+                        return {
+                            statusCode: 400,
+                            body: "Error fetching purchases."
+                        };
+                    });
+                break;
+
+            case 'combined':
+                console.log('Running in COMBINED mode')
+                return getCombined()
+                    .then(function(data){
+                        console.log("Return data");
+                        return { statusCode: 200, body: data };   
+                    })
+                    .catch(err => {
+                        console.error((err));
+                        return {
+                            statusCode: 400,
+                            body: "Error fetching purchases."
+                        };
+                    });
                 break;
             
             default:
-                console.log('Mode unknown, defaulting to ONEOFF mode')
-                return getOneOff();
+                console.log('Mode unknown, defaulting to COMBINED mode')
+                return getCombined()
+                    .then(function(data){
+                        console.log("Return data");
+                        return { statusCode: 200, body: data };   
+                    })
+                    .catch(err => {
+                        console.error((err));
+                        return {
+                            statusCode: 400,
+                            body: "Error fetching purchases."
+                        };
+                    });
         }
 
     } else {
@@ -51,6 +101,11 @@ exports.handler = async (event) => {
         
 };
 
+function getCombined(){
+    var subscription = getSubcription();
+    var oneOff = getOneOff();
+    return oneOff.append(subscription)
+}
 
 function getOneOff(){
     return stripe.checkout.sessions.list({limit:100, expand: ['data.line_items', 'data.customer']})
@@ -74,17 +129,6 @@ function getOneOff(){
                 };
             });
         })
-        .then(function(data){
-            console.log("Return data");
-            return { statusCode: 200, body: data };   
-        })
-        .catch(err => {
-            console.error((err));
-            return {
-                statusCode: 400,
-                body: "Error fetching purchases."
-            };
-        });
 }
 
 function getSubcription(){
@@ -105,15 +149,4 @@ function getSubcription(){
                 };
             });
         })
-        .then(function(data){
-            console.log("Return data");
-            return { statusCode: 200, body: data };   
-        })
-        .catch(err => {
-            console.error((err));
-            return {
-                statusCode: 400,
-                body: "Error fetching purchases."
-            };
-        });
 }
