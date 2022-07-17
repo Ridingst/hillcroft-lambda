@@ -88,6 +88,32 @@ function getOneOff(){
 }
 
 function getSubcription(){
-    return stripe.invoices.list({limit:100, status: 'paid', expand: ['data.subscription', 'data.customer']})
+    return stripe.invoices.list({limit:100, status: 'paid', expand: ['data.customer']})
         .autoPagingToArray({limit: 10000})
+        .then(data =>{
+            console.log("Mapping returned data to normalised format");
+            return _.map(data, function(item){
+                return {
+                    customer: item.customer.id,
+                    customer_email: item.customer.email,
+                    customer_name: item.customer.name,
+                    amount_paid: item.amount_paid,
+                    customer_phone: item.customer.phone,
+                    product: item.lines.data[0].description,
+                    product_id: item.lines.data[0].price.product,
+                    date: item.status_transitions.paid_at
+                };
+            });
+        })
+        .then(function(data){
+            console.log("Return data");
+            return { statusCode: 200, body: data };   
+        })
+        .catch(err => {
+            console.error((err));
+            return {
+                statusCode: 400,
+                body: "Error fetching purchases."
+            };
+        });
 }
