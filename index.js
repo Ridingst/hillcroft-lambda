@@ -23,8 +23,7 @@ exports.handler = async (event) => {
     console.log('Function started');
 
     var mode = ''
-    if('mode' in event.headers){ modeParam = event.headers.mode;}
-    else { mode = 'oneOff'}
+    if('mode' in event.headers){ mode = event.headers.mode;}
     
     if(("x-api-key" in event.headers) && event.headers['x-api-key'] == process.env.API_KEY){
         switch(mode){
