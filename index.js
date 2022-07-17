@@ -104,7 +104,7 @@ exports.handler = async (event) => {
 function getCombined(){
     var subscription = getSubcription();
     var oneOff = getOneOff();
-    return oneOff.append(subscription)
+    return oneOff.push(subscription)
 }
 
 function getOneOff(){
