@@ -70,7 +70,7 @@ function getOneOff(){
                     customer_phone: item.customer.phone,
                     product: item.line_items.data[0].description,
                     product_id: item.line_items.data[0].price.product,
-                    date: item.expires_at
+                    date: new Date(item.expires_at*1000)
                 };
             });
         })
@@ -101,7 +101,7 @@ function getSubcription(){
                     customer_phone: item.customer.phone,
                     product: item.lines.data[0].description,
                     product_id: item.lines.data[0].price.product,
-                    date: item.status_transitions.paid_at
+                    date: new Date(item.status_transitions.paid_at*1000)
                 };
             });
         })
