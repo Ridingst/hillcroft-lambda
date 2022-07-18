@@ -182,11 +182,11 @@ function getSummerSessions(){
                     customer: item.customer.id,
                     customer_email: item.customer.email,
                     customer_name: item.customer.name,
-                    amount_paid: item.amount_paid,
+                    amount_paid: item.amount,
                     customer_phone: item.customer.phone,
-                    product: item.lines.data[0].description,
-                    product_id: item.lines.data[0].price.product,
-                    date: new Date(item.status_transitions.paid_at*1000)
+                    product: item.description,
+                    product_id: item.description,
+                    date: new Date(item.crearted*1000)
                 };
             });
         })
