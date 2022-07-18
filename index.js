@@ -179,9 +179,9 @@ function getSummerSessions(){
             console.log("Mapping returned data to normalised format");
             return _.map(data, function(item){
                 return {
-                    customer: item.customer,
-                    customer_email: '',
-                    customer_name: '',
+                    customer: 'Guest',
+                    customer_email: item.email,
+                    customer_name: 'Guest',
                     amount_paid: item.amount,
                     customer_phone: '',
                     product: item.description,
