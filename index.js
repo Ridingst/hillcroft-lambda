@@ -173,8 +173,15 @@ function getSubcription(){
 
 
 function getSummerSessions(){
-    return stripe.paymentIntents.list({limit:100, expand: ['data.customer']})
-        .autoPagingToArray({limit: 100})
+    return stripe.paymentIntents.search({
+        query: 'status:\'succeeded\' ', limit:100, expand: ['data.customer']})
+        .autoPagingToArray({limit: 10000})
+        .then(data=> {
+            console.log('Filtering PaymentIntents to just summer sessions')
+            return _.filter(data, function(item){
+                return item.description.includes('Ticket Sale -')
+            })
+        })
         .then(data =>{
             console.log("Mapping returned data to normalised format");
             return _.map(data, function(item){
