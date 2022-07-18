@@ -174,11 +174,11 @@ function getSubcription(){
 
 function getSummerSessions(){
     return stripe.paymentIntents.list({limit:100, expand: ['data.customer']})
-        .autoPagingToArray({limit: 10000})
+        .autoPagingToArray({limit: 100})
         .then(data=> {
             console.log('Filtering PaymentIntents to just summer sessions')
             return _.filter(data, function(item){
-                return (item.description.includes('Ticket Sale -') && item.status =="succeeded")
+                return (item.description && item.description.includes('Ticket Sale -') && item.status =="succeeded")
             })
         })
         .then(data =>{
