@@ -178,10 +178,17 @@ function getSummerSessions(){
         .then(data =>{
             console.log("Mapping returned data to normalised format");
             return _.map(data, function(item){
+            
+                try{
+                    let name = item.charges.data[0].billing_details.name
+                } catch {
+                    let name = "Guest"
+                }
+
                 return {
                     customer: 'Guest',
-                    customer_email: item.receipt_email,
-                    customer_name: item.charges.data[0].billing_details.name,
+                    customer_email: item.receipt_email || 'Guest',
+                    customer_name: item.charges.data[0].billing_details.name || "Guest",
                     amount_paid: item.amount,
                     customer_phone: '',
                     product: item.description,
