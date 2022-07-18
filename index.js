@@ -178,7 +178,7 @@ function getSummerSessions(){
         .then(data=> {
             console.log('Filtering PaymentIntents to just summer sessions')
             return _.filter(data, function(item){
-                return (item.description.includes('Ticket Sale -') && item.status =="succeeded"),
+                return (item.description.includes('Ticket Sale -') && item.status =="succeeded")
             })
         })
         .then(data =>{
