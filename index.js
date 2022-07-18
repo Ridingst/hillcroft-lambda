@@ -183,7 +183,7 @@ function getSummerSessions(){
                     customer_email: '',
                     customer_name: '',
                     amount_paid: item.amount,
-                    customer_phone: item.customer.phone,
+                    customer_phone: '',
                     product: item.description,
                     product_id: item.description,
                     date: new Date(item.crearted*1000)
