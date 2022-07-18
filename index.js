@@ -177,7 +177,7 @@ function getSummerSessions(){
         .autoPagingToArray({limit: 100})
         .then(data =>{
             console.log("Mapping returned data to normalised format");
-            return _.map(data, function(item){
+            /*return _.map(data, function(item){
                 return {
                     customer: 'Guest',
                     customer_email: item.email,
@@ -188,6 +188,7 @@ function getSummerSessions(){
                     product_id: item.description,
                     date: new Date(item.crearted*1000)
                 };
-            });
+            });*/
+            return data
         })
 }
