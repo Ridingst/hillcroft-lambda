@@ -173,7 +173,7 @@ function getSubcription(){
 
 
 function getSummerSessions(){
-    return stripe.paymentIntents.list({limit:100, status: 'paid', expand: ['data.customer']})
+    return stripe.paymentIntents.list({limit:100, expand: ['data.customer']})
         .autoPagingToArray({limit: 100})
         .then(data =>{
             console.log("Mapping returned data to normalised format");
