@@ -177,18 +177,18 @@ function getSummerSessions(){
         .autoPagingToArray({limit: 100})
         .then(data =>{
             console.log("Mapping returned data to normalised format");
-            /*return _.map(data, function(item){
+            return _.map(data, function(item){
                 return {
                     customer: 'Guest',
-                    customer_email: item.email,
-                    customer_name: 'Guest',
+                    customer_email: item.receipt_email,
+                    customer_name: item.charges.data[0].billing_details.name,
                     amount_paid: item.amount,
                     customer_phone: '',
                     product: item.description,
                     product_id: item.description,
-                    date: new Date(item.crearted*1000)
+                    date: new Date(item.created*1000)
                 };
-            });*/
-            return data
+            });
+            //return data
         })
 }
