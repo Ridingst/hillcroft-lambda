@@ -2,6 +2,8 @@
 
 This function will timeout on the Vercel platform but it can be used in the AWS serverless platform
 
+Demo edit
+
 Invoices = subscription products
 CheckoutSessions = one off purchases
 PaymentIntents = summer session purchases
